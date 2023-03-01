@@ -48,7 +48,7 @@ router
   
   .post(controladorLista.urlCrearNuevaTarea(), (rep, res) => {
     const sql = 'INSERT INTO lista SET ?';
-    var custumerObj = {
+    let custumerObj = {
       nombre_tarea: rep.body.nombre_tarea,
       estado: rep.body.estado
     }

@@ -4,8 +4,6 @@ const bodyParser = require('body-parser')
 const mysql = require('mysql');
 app.use(bodyParser.json());
 
-//const {MYSQL_USER, MYSQL_HOST, MYSQL_PASSWORD, MYSQL_DB, DB_PORT} = process.env; 
-
 const conexion = mysql.createConnection({
     host: "localhost",
     user: "wilmeram",
