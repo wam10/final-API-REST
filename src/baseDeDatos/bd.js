@@ -14,8 +14,8 @@ const conexion = mysql.createConnection({
 });
 
 conexion.connect((error) => {
-    if (error) throw "500: Error del servidor"
-    console.log('200: Conexión exitosa') 
+    if (error) throw error;
+    console.log('200: Conexión exitosa');
 });
 
 module.exports = {
