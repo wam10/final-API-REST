@@ -48,11 +48,11 @@ router
   
   .post(controladorLista.urlCrearNuevaTarea(), (rep, res) => {
     const sql = 'INSERT INTO lista SET ?';
-    let custumerObj = {
+    let tarearObj = {
       nombre_tarea: rep.body.nombre_tarea,
       estado: rep.body.estado
     }
-    bDatosLista.conexion.query(sql, custumerObj, error => {
+    bDatosLista.conexion.query(sql, tarearObj, error => {
       if (error) throw error;
       res.send('201: La solicitud se realizo correctamente.')
     });
