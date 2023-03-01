@@ -1,0 +1,283 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "API para administrar una lista de cosas pendientes por hacer.",
+    "version": "1.0.11",
+    "title": "Lista de cosas por hacer."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5021/api/v1",
+      "description": "Entorno de producción y desarrollo de la API"
+    }
+  ],
+  "paths": {
+    "/api/v1/lista": {
+      "get": {
+        "tags": [
+          "Mostar lista"
+        ],
+        "summary": "Lista de cosas",
+        "description": "Este método lista todas las cosas almacenadas en la tabla tareas",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/listaCompleta"
+          },
+          {
+            "$ref": "#/components/parameters/listaRealizados"
+          },
+          {
+            "$ref": "#/components/parameters/listaPendientes"
+          },
+          {
+            "name": "lista",
+            "in": "query",
+            "description": "Filtro para buscar toda la lista de cosas por hacer",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud tuvo éxito",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lista"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noEncontrado"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crear": {
+      "post": {
+        "tags": [
+          "Nueva tarea"
+        ],
+        "summary": "Crear tarea",
+        "description": "Este método crea tareas",
+        "responses": {
+          "201": {
+            "description": "La solicitud se realizo correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Crear"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/modificar": {
+      "put": {
+        "tags": [
+          "Actualizar tarea"
+        ],
+        "summary": "Modificar tarea",
+        "description": "Este método permite modificar los campos de las tareas.",
+        "responses": {
+          "200": {
+            "description": "La solicitud se realizo correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actualizar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/eliminar": {
+      "delete": {
+        "tags": [
+          "Eliminar tarea"
+        ],
+        "summary": "Eliminar tarea",
+        "description": "Este método permite eliminar una tarea en la tabla de la base de datos.",
+        "responses": {
+          "200": {
+            "description": "La solicitud se realizo correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eliminar"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "listaCompleta": {
+        "name": "lista",
+        "in": "query",
+        "description": "Filtra toda la información encontrada en la tabla tareas de la BD.",
+        "example": "Ingrese el nombre de la tabla \"administrar_cosas\" para filtrar toda la informacion de la tabla.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "listaRealizados": {
+        "name": "realizada",
+        "in": "query",
+        "description": "Listar tareas realizadas",
+        "example": "Filtra todas las tareas que se encuentren en un estado realizado",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "listaPendientes": {
+        "name": "pendiente",
+        "in": "query",
+        "description": "Listar tareas pendientes",
+        "example": "Filtra todas las tareas que se encuentren en un estado pendiente",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Lista": {
+        "type": "object",
+        "required": [
+          "ingreseTarea",
+          "estado"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "readOnly": true
+          },
+          "ingreseTarea": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Código de error",
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo de error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de error"
+          }
+        }
+      },
+      "noEncontrado": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Registron no encontrado"
+          }
+        }
+      },
+      "Crear": {
+        "type": "object",
+        "required": [
+          "ingreseTarea",
+          "estado"
+        ],
+        "properties": {
+          "id": {
+            "type": "number",
+            "readOnly": true
+          },
+          "ingreseTarea": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          }
+        }
+      },
+      "Actualizar": {
+        "type": "object",
+        "required": [
+          "modificarNombre",
+          "modificarEstado",
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "modificarNombre": {
+            "type": "string"
+          },
+          "modificarEstado": {
+            "type": "string"
+          }
+        }
+      },
+      "Eliminar": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
