@@ -10,7 +10,7 @@ router
   .get(controladorLista.urlListaCompleta(), (rep, res) => {
     const sql = 'SELECT  * FROM lista';
     bDatosLista.conexion.query(sql, (error, resultados) => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       if (resultados.length > 0) {
         res.json(resultados);
         console.log('200: La solicitud tuvo éxito')
@@ -23,7 +23,7 @@ router
   .get(controladorLista.urlListaRealizado(), (rep, res) => {
     const sql = 'SELECT  * FROM lista WHERE estado = "realizado"';
     bDatosLista.conexion.query(sql, (error, resultados) => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       if (resultados.length > 0) {
         res.json(resultados);
         console.log('200: La solicitud tuvo éxito')
@@ -36,7 +36,7 @@ router
   .get(controladorLista.urlListaPendiente(), (rep, res) => {
     const sql = 'SELECT  * FROM lista WHERE estado = "pendiente"';
     bDatosLista.conexion.query(sql, (error, resultados) => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       if (resultados.length > 0) {
         res.json(resultados);
         console.log('200: La solicitud tuvo éxito')
@@ -53,7 +53,7 @@ router
       estado: rep.body.estado
     }
     bDatosLista.conexion.query(sql, custumerObj, error => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       res.send('201: La solicitud se realizo correctamente.')
     });
   })
@@ -70,7 +70,7 @@ router
       return `UPDATE lista SET estado = '${est}' WHERE id=${id}`;
     }
     bDatosLista.conexion.query(sql(id, nombre_tarea, estado), error => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       res.send('200: La solicitud se realizo correctamente.')
     });
   })
@@ -79,7 +79,7 @@ router
     const { id } = rep.params;
     const sql = `DELETE FROM lista WHERE id=${id}`;
     bDatosLista.conexion.query(sql, error => {
-      if (error) throw '500: Error del servidor';
+      if (error) throw error;
       res.send('200: La solicitud se realizo correctamente.')
     });
   })
